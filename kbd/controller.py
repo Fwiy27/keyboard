@@ -1,6 +1,6 @@
 from pynput.keyboard import Controller, Key, Listener
 from kbd.utils import get_pause, get_close_letter
-from numpy import random
+import numpy as np
 import string
 import time
 
@@ -30,12 +30,12 @@ def type_content(content: str, wpm: float = 150, errors: bool = False, error_per
     last_index = len(content) - 1
 
     for i, character in enumerate(content):
-        if errors and character in string.ascii_letters and (random.random() * 100) < error_percentage and i != last_index:
+        if errors and character in string.ascii_letters and (np.random.random() * 100) < error_percentage and i != last_index:
             send(get_close_letter(character))
             time.sleep(error_delay)
             send(Key.backspace)
             time.sleep(error_delay)
         send(character)
         if i != last_index:
-            pause_time = abs(random.normal(average_sleep_time, average_sleep_time / 7))
+            pause_time = abs(np.random.normal(average_sleep_time, average_sleep_time / 7))
             time.sleep(pause_time)

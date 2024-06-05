@@ -1,4 +1,4 @@
-from numpy import random
+import numpy as np
 import string
 
 def get_close_letter(letter: str) -> str:
@@ -39,7 +39,7 @@ def get_close_letter(letter: str) -> str:
         'm': ['n'],
     }
 
-    close: str = random.choice(close[letter.lower()])
+    close: str = np.random.choice(close[letter.lower()])
     lowercase = True if letter in string.ascii_lowercase else False
     return close if lowercase else close.upper()
 

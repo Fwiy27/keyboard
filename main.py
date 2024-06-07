@@ -10,7 +10,6 @@ kbd.hotkey(
     message = 'Hotkey Initalized', 
     output = True
 )
-
 """
 once() initalizes a one time event hotkey
 type_content() types content in a realistic manner at set wpm
@@ -18,8 +17,8 @@ type_content() types content in a realistic manner at set wpm
 kbd.once(
     key = kbd.Key.alt_r,
     callback = lambda: kbd.type_content(
-        content = 'this is a one time event hotkey',
-        wpm = 75,
+        content = 'this: is a one time, supercalifragilisticexplialidocious test!',
+        wpm = 100,
         errors = True,
         error_percentage = 15
     ),
@@ -27,7 +26,6 @@ kbd.once(
     init_output = True,
     output = True,
 )
-
 """
 toggle() initializes hotkey that runs callback continuously with break of {sleep_time} between invocations
 """
@@ -38,7 +36,6 @@ kbd.toggle(
     output = True,
     sleep_time = 1
 )
-
 """
 wait() waits for key to be pressed before moving on
 """

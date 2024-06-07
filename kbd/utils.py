@@ -43,7 +43,7 @@ def get_close_letter(letter: str) -> str:
     lowercase = True if letter in string.ascii_lowercase else False
     return close if lowercase else close.upper()
 
-def get_pause(wpm: int, average_word_length: float = 5.1) -> float:
+def get_pause(wpm: float, average_word_length: float = 5.1) -> float:
     """Returns Sleep Time Between Characters Given WPM
 
     Args:

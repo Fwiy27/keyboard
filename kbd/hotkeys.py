@@ -15,7 +15,10 @@ def wait(until: Key, callback: callable = lambda: None, output = True) -> Listen
     """
     def action(key):
         if key == until:
-            callback()
+            try:
+                callback()
+            except Exception as e:
+                print(e)
             listener.stop()
     listener = Listener(on_press=action)
     listener.start()
@@ -39,7 +42,10 @@ def once(key: Key, callback: callable = lambda: None, message: str = 'One Use Ho
         if event == key:
             if output:
                 print(f'Activated {message}')
-            callback()
+            try:
+                callback()
+            except Exception as e:
+                print(e)
             listener.stop()
     listener = Listener(on_press=action)
     listener.start()
@@ -71,7 +77,10 @@ def toggle(key: Key, callback: callable = lambda: print('on'), message: str = 'T
         once(key, stop, init_output = False, output = False)
 
         while not stop_event.is_set():
-            callback()
+            try:
+                callback()
+            except Exception as e:
+                print(e)
             time.sleep(sleep_time)
 
         # Define Start
@@ -93,7 +102,10 @@ def hotkey(key: Key, callback: callable = lambda: None, message: str = 'Hotkey I
     """
     def action(event):
         if event == key:
-            callback()
+            try:
+                callback()
+            except Exception as e:
+                print(e)
     listener = Listener(on_press=action)
     listener.start()
     print(f'{message}: [{key.name}]')

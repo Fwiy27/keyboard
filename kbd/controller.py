@@ -7,50 +7,57 @@ import time
 controller = Controller()
 
 def send(key: Key) -> None:
-    """Simulates Pressing and Releasing Key
-
-    Args: 
-        key (Key): Key to Press
-    """
-    controller.press(key)
-    controller.release(key)
-    
-def type_word(word: str, wpm: float = 150, errors: bool = True, error_percentage = 2) -> None:
-    """Types word at wpm
+    """Send Key
 
     Args:
-        word (str): Word to type
-        wpm (float, optional): Average wpm to type at. Defaults to 150.
-        errors (bool, optional): Allows orsrre. Defaults to True.
-        error_percentage (int, optional): Error percentage. Defaults to 2.
+        key (Key): Key to send 
     """
-    long_word: int = 8
-    wpm = np.random.normal(wpm - 20, 5) if len(word) >= long_word else wpm
-    average_pause = get_pause(wpm)
-    error_pause = get_pause(wpm * .8)
-    for i, letter in enumerate(word):
-        if errors and (np.random.random() * 100) <= error_percentage and i not in [0, len(word) - 1] and letter not in [' ', '-', "'", ',', '.']:
-            send(get_close_letter(letter))
-            time.sleep(np.random.normal(error_pause, error_pause * .1))
-            send(Key.backspace)
-            time.sleep(np.random.normal(average_pause, average_pause * .1))
-        send(letter)
-        if i != len(word) - 1:
-            time.sleep(np.random.normal(average_pause, average_pause * .1))
+    controller.press(key) 
+    controller.release(key)
 
+def type_word(word: str, wpm: float = 150, errors: bool = True, error_percentage: float = 2, pause = True) -> None:
+    """Type Word Given WPM
+
+    Args:
+        word (str): Word to type out
+        wpm (float, optional): Word per minute to type at. Defaults to 150.
+        errors (bool, optional): Allows errors. Defaults to True.
+        error_percentage (float, optional): Error percentage. Defaults to 2.
+        pause (bool, optional): Pause at end of word. Defaults to True.
+    """
+    wpm = wpm if not errors else abs(np.random.normal(wpm, 40))
+    average_pause = get_pause(wpm)
+    
+    for i, letter in enumerate(word):
+        same_as_previous: bool = False if i == 0 else (letter == word[i-1])
+    
+        if errors and np.random.random() * 100 <= error_percentage and not same_as_previous and letter in string.ascii_letters:
+            send(get_close_letter(letter))
+            time.sleep(average_pause)
+            send(Key.backspace)
+            time.sleep(average_pause)
+            send(letter)
+        else:
+            send(letter)
+    
+        if i != len(word) - 1:
+            time.sleep(average_pause) if not same_as_previous else time.sleep(average_pause / 2)           
+        elif pause:
+            time.sleep(average_pause)
+        
 def type_content(content: str, wpm: float = 150, errors: bool = False, error_percentage = 2) -> None:
-    """Types content at wpm
+    """Type content
+
     Args:
         content (str): Content to type
-        wpm (float, optional): Average wpm to type at. Defaults to 150.
+        wpm (float, optional): Word per minute to type at. Defaults to 150.
         errors (bool, optional): Allows errors. Defaults to False.
         error_percentage (int, optional): Error percentage. Defaults to 2.
     """
-    average_pause = get_pause(wpm)
-    words = content.split()
+    words = content.split(' ')
     for i, word in enumerate(words):
-        type_word(word, wpm, errors, error_percentage)
-        if i != len(words) - 1:
-            time.sleep(np.random.normal(average_pause, average_pause * .1))
+        pause: bool = i != len(words) - 1
+        type_word(word, wpm, errors, error_percentage, pause)
+        if pause:
             send(Key.space)
-            time.sleep(np.random.normal(average_pause, average_pause * .1))
+            time.sleep(get_pause(np.random.normal(wpm - 40, 20)))

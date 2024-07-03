@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name = 'kbd',
-    version = '1.0.3',
+    version = '1.0.4',
     description = "Custom Implementation of pynput's Keyboard",
     long_description = open('README.md').read(),
     author = 'Landon Migawa',

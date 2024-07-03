@@ -22,7 +22,7 @@ def wait(until: Key, callback: callable = lambda: None, output = True) -> Listen
             listener.stop()
     listener = Listener(on_press=action)
     listener.start()
-    print(f'Waiting for {until.name} to be pressed. . .')
+    print(f'Waiting for {until.name} to be pressed. . .') if output else None
     listener.join()
     return listener
 
@@ -112,5 +112,5 @@ def hotkey(key: Key, callback: callable = lambda: None, message: str = 'Hotkey I
         key_name = key.name
     except:
         key_name = key
-    print(f'{message}: [{key_name}]')
+    print(f'{message}: [{key_name}]') if output else None
     return listener

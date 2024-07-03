@@ -108,5 +108,9 @@ def hotkey(key: Key, callback: callable = lambda: None, message: str = 'Hotkey I
                 print(e)
     listener = Listener(on_press=action)
     listener.start()
-    print(f'{message}: [{key.name}]')
+    try:
+        key_name = key.name
+    except:
+        key_name = key
+    print(f'{message}: [{key_name}]')
     return listener

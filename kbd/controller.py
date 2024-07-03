@@ -1,4 +1,4 @@
-from pynput.keyboard import Controller, Key, Listener
+from pynput.keyboard import Controller, Key, Listener, KeyCode
 from kbd.utils import get_pause, get_close_letter
 import numpy as np
 import string
